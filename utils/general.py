@@ -509,7 +509,7 @@ def check_dataset(data, autodownload=True):
     data['nc'] = len(data['names'])
 
     # Resolve paths
-    path = Path(extract_dir or data.get('path') or '')  # optional 'path' default to '.'
+    path = Path(data.get('path') or extract_dir or '')  # optional 'path' default to '.'
     if not path.is_absolute():
         path = (ROOT / path).resolve()
     for k in 'train', 'val', 'test':

@@ -1,0 +1,1 @@
+python -m torch.distributed.launch --nproc_per_node 2  --master_port 29501 --use_env train.py --sync-bn --batch-size 80 --workers 8 --imgsz 320 --device 0,1 --save-period 30 --data ../data/coco.yaml --weights ../weights/yolov7-seg.pt
