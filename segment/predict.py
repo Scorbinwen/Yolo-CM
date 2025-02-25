@@ -25,7 +25,7 @@ from utils.dataloaders import IMG_FORMATS, VID_FORMATS, LoadImages, LoadStreams
 from utils.general import (LOGGER, Profile, check_file, check_img_size, check_imshow, check_requirements, colorstr, cv2,
                            increment_path, non_max_suppression,scale_segments, print_args, scale_coords, strip_optimizer, xyxy2xywh)
 from utils.plots import Annotator, colors, save_one_box
-from utils.segment.general import process_mask, scale_masks, masks2segments
+from utils.segment.general import process_mask, process_combine_mask, scale_masks, masks2segments
 from utils.segment.plots import plot_masks
 from utils.torch_utils import select_device, smart_inference_mode
 
@@ -59,6 +59,7 @@ def run(
         half=False,  # use FP16 half-precision inference
         dnn=False,  # use OpenCV DNN for ONNX inference
         trk = False,
+        combine_mask=False,
 ):  
 
     #.... Initialize SORT .... 
@@ -86,7 +87,7 @@ def run(
     # Load model
     device = select_device(device)
     model = DetectMultiBackend(weights, device=device, dnn=dnn, data=data, fp16=half)
-    stride, names, pt = model.stride, model.names, model.pt
+    stride, names, pt, nc, nm, combine_mask = model.stride, model.names, model.pt, model.model.nc, model.segmentation_model.nm, model.segmentation_model.combine_mask
     imgsz = check_img_size(imgsz, s=stride)  # check image size
 
     # Dataloader
@@ -114,8 +115,12 @@ def run(
         # Inference
         with dt[1]:
             visualize = increment_path(save_dir / Path(path).stem, mkdir=True) if visualize else False
-            pred, out = model(im, augment=augment, visualize=visualize)
-            proto = out[1]
+            if combine_mask:
+                pred, out, mask_pred = model(im, augment=augment,
+                                             visualize=visualize)  # if training else model(im, augment=augment, val=True)  # inference, loss
+            else:
+                pred, out = model(im, augment=augment, visualize=visualize)
+                proto = out[1]
 
         # NMS
         with dt[2]:
@@ -141,8 +146,11 @@ def run(
             imc = im0.copy() if save_crop else im0  # for save_crop
             annotator = Annotator(im0, line_width=line_thickness, example=str(names))
             if len(det):
-                masks = process_mask(proto[i], det[:, 6:], det[:, :4], im.shape[2:], upsample=True)  # HWC
-
+                if not combine_mask:
+                    masks = process_mask(proto[i], det[:, 6:], det[:, :4], im.shape[2:], upsample=True)
+                else:
+                    mask_pred_si = mask_pred[i]
+                    masks = process_combine_mask(mask_pred_si, det[:, 5], det[:, :4], im.shape[2:], upsample=True)
                 # Rescale boxes from img_size to im0 size
                 det[:, :4] = scale_coords(im.shape[2:], det[:, :4], im0.shape).round()
 
@@ -250,6 +258,7 @@ def parse_opt():
     parser.add_argument('--max-det', type=int, default=1000, help='maximum detections per image')
     parser.add_argument('--device', default='', help='cuda device, i.e. 0 or 0,1,2,3 or cpu')
     parser.add_argument('--view-img', action='store_true', help='show results')
+    parser.add_argument('--combine_mask', action='store_true', default=False, help='combine masks of the same class.')
     parser.add_argument('--save-txt', action='store_true', help='save results to *.txt')
     parser.add_argument('--save-conf', action='store_true', help='save confidences in --save-txt labels')
     parser.add_argument('--save-crop', action='store_true', help='save cropped prediction boxes')

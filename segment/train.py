@@ -40,7 +40,8 @@ if str(ROOT) not in sys.path:
 ROOT = Path(os.path.relpath(ROOT, Path.cwd()))  # relative
 
 import torch.nn.functional as F
-
+import torch.distributed as dist
+from datetime import timedelta
 import segment.val as validate  # for end-of-epoch mAP
 from models.experimental import attempt_load
 from models.yolo import SegmentationModel
@@ -67,9 +68,9 @@ WORLD_SIZE = int(os.getenv('WORLD_SIZE', 1))
 
 
 def train(hyp, opt, device, callbacks):  # hyp is path/to/hyp.yaml or hyp dictionary
-    save_dir, epochs, batch_size, weights, single_cls, evolve, data, cfg, resume, noval, nosave, workers, freeze, mask_ratio = \
+    save_dir, epochs, batch_size, weights, single_cls, evolve, data, cfg, resume, noval, nosave, workers, freeze, mask_ratio, combine_mask = \
         Path(opt.save_dir), opt.epochs, opt.batch_size, opt.weights, opt.single_cls, opt.evolve, opt.data, opt.cfg, \
-        opt.resume, opt.noval, opt.nosave, opt.workers, opt.freeze, opt.mask_ratio
+        opt.resume, opt.noval, opt.nosave, opt.workers, opt.freeze, opt.mask_ratio, opt.combine_mask
     # callbacks.run('on_pretrain_routine_start')
 
     # Directories
@@ -107,7 +108,7 @@ def train(hyp, opt, device, callbacks):  # hyp is path/to/hyp.yaml or hyp dictio
 
     # Config
     plots = not evolve and not opt.noplots  # create plots
-    overlap = not opt.no_overlap
+    overlap = (not opt.no_overlap) and (not combine_mask)
     cuda = device.type != 'cpu'
     init_seeds(opt.seed + 1 + RANK, deterministic=True)
     with torch_distributed_zero_first(LOCAL_RANK):
@@ -263,7 +264,7 @@ def train(hyp, opt, device, callbacks):  # hyp is path/to/hyp.yaml or hyp dictio
     scheduler.last_epoch = start_epoch - 1  # do not move
     scaler = torch.cuda.amp.GradScaler(enabled=amp)
     stopper, stop = EarlyStopping(patience=opt.patience), False
-    compute_loss = ComputeLoss(model, overlap=overlap)  # init loss class
+    compute_loss = ComputeLoss(model, overlap=overlap, combine_mask=combine_mask)  # init loss class
     # callbacks.run('on_train_start')
     LOGGER.info(f'Image sizes {imgsz} train, {imgsz} val\n'
                 f'Using {train_loader.num_workers * WORLD_SIZE} dataloader workers\n'
@@ -486,6 +487,7 @@ def parse_opt(known=False):
     parser.add_argument('--batch-size', type=int, default=16, help='total batch size for all GPUs, -1 for autobatch')
     parser.add_argument('--imgsz', '--img', '--img-size', type=int, default=640, help='train, val image size (pixels)')
     parser.add_argument('--rect', action='store_true', help='rectangular training')
+    parser.add_argument('--combine_mask', action='store_true', default=False, help='combine masks of the same class.')
     parser.add_argument('--resume', nargs='?', const=True, default=False, help='resume most recent training')
     parser.add_argument('--nosave', action='store_true', help='only save final checkpoint')
     parser.add_argument('--noval', action='store_true', help='only validate final epoch')
@@ -570,7 +572,7 @@ def main(opt, callbacks=Callbacks()):
         assert torch.cuda.device_count() > LOCAL_RANK, 'insufficient CUDA devices for DDP command'
         torch.cuda.set_device(LOCAL_RANK)
         device = torch.device('cuda', LOCAL_RANK)
-        dist.init_process_group(backend="nccl" if dist.is_nccl_available() else "gloo")
+        dist.init_process_group(backend="nccl" if dist.is_nccl_available() else "gloo", timeout=timedelta(minutes=40))
 
     # Train
     if not opt.evolve:

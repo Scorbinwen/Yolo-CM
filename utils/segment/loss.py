@@ -11,7 +11,7 @@ from .general import crop
 
 class ComputeLoss:
     # Compute losses
-    def __init__(self, model, autobalance=False, overlap=False):
+    def __init__(self, model, autobalance=False, overlap=False, combine_mask=False):
         self.sort_obj_iou = False
         self.overlap = overlap
         device = next(model.parameters()).device  # get model device
@@ -40,9 +40,13 @@ class ComputeLoss:
         self.nm = m.nm  # number of masks
         self.anchors = m.anchors
         self.device = device
+        self.combine_mask = combine_mask
 
     def __call__(self, preds, targets, masks):  # predictions, targets, model
-        p, proto = preds
+        if self.combine_mask:
+            p, proto, mask_pred = preds
+        else:
+            p, proto = preds
         bs, nm, mask_h, mask_w = proto.shape  # batch size, number of masks, mask height, mask width
         lcls = torch.zeros(1, device=self.device)
         lbox = torch.zeros(1, device=self.device)
@@ -57,7 +61,11 @@ class ComputeLoss:
 
             n = b.shape[0]  # number of targets
             if n:
-                pxy, pwh, _, pcls, pmask = pi[b, a, gj, gi].split((2, 2, 1, self.nc, nm), 1)  # subset of predictions
+                if self.combine_mask:
+                    pxy, pwh, _, pcls = pi[b, a, gj, gi].split((2, 2, 1, self.nc), 1)  # subset of predictions
+                    pmask = mask_pred
+                else:
+                    pxy, pwh, _, pcls, pmask = pi[b, a, gj, gi].split((2, 2, 1, self.nc, nm), 1)  # subset of predictions
 
                 # Box regression
                 pxy = pxy.sigmoid() * 2 - 0.5
@@ -92,7 +100,14 @@ class ComputeLoss:
                         mask_gti = torch.where(masks[bi][None] == tidxs[i][j].view(-1, 1, 1), 1.0, 0.0)
                     else:
                         mask_gti = masks[tidxs[i]][j]
-                    lseg += self.single_mask_loss(mask_gti, pmask[j], proto[bi], mxyxy[j], marea[j])
+                    if self.combine_mask:
+                        # merge mask for mask_gti
+                        mask_gti_cls = self.combine_mask_by_class(mask_gti, tcls[i][j], pmask[bi])
+                        mask_gti_anchor = self.extract_mask_by_anchor(mask_gti_cls, tcls[i][j])
+                        pmask_anchor = self.extract_mask_by_anchor(pmask[bi], tcls[i][j])
+                        lseg += self.comb_mask_loss(mask_gti_anchor, pmask_anchor, mxyxy[j], marea[j])
+                    else:
+                        lseg += self.single_mask_loss(mask_gti, pmask[j], proto[bi], mxyxy[j], marea[j])
 
             obji = self.BCEobj(pi[..., 4], tobj)
             lobj += obji * self.balance[i]  # obj loss
@@ -109,9 +124,23 @@ class ComputeLoss:
         loss = lbox + lobj + lcls + lseg
         return loss * bs, torch.cat((lbox, lseg, lobj, lcls)).detach()
 
+    def combine_mask_by_class(self, mask_gti, tcls, pmask):
+        cls_ind = (torch.arange(0, pmask.shape[0], device=mask_gti.device)[:, None] == tcls[None, :]).to(dtype=mask_gti.dtype)
+        mask_gt_cls = torch.clamp(torch.einsum('bi,ijk->bjk', cls_ind, mask_gti), min=0, max=1)
+        return mask_gt_cls
+
+    def extract_mask_by_anchor(self, mask, tcls):
+        mask_anchor = mask[tcls]
+        return mask_anchor
+
     def single_mask_loss(self, gt_mask, pred, proto, xyxy, area):
         # Mask loss for one image
         pred_mask = (pred @ proto.view(self.nm, -1)).view(-1, *proto.shape[1:])  # (n,32) @ (32,80,80) -> (n,80,80)
+        loss = F.binary_cross_entropy_with_logits(pred_mask, gt_mask, reduction="none")
+        return (crop(loss, xyxy).mean(dim=(1, 2)) / area).mean()
+
+    def comb_mask_loss(self, gt_mask, pred_mask, xyxy, area):
+        # Mask loss for one image
         loss = F.binary_cross_entropy_with_logits(pred_mask, gt_mask, reduction="none")
         return (crop(loss, xyxy).mean(dim=(1, 2)) / area).mean()
 

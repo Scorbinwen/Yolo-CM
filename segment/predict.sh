@@ -1,0 +1,1 @@
+python predict.py  --data ../data/coco.yaml  --weights ../runs/train-seg/exp/weights/best.pt --source /workspace/data/coco_minitrain_25k/images/val2017/

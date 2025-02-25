@@ -165,20 +165,39 @@ class Segment(Detect):
 
 class ISegment(IDetect):
     # YOLOR Segment head for segmentation models
-    def __init__(self, nc=80, anchors=(), nm=32, npr=256, ch=(), inplace=True):
+    def __init__(self, nc=80, anchors=(), nm=32, npr=256, inplace=True, combine_mask=False, ch=()):
         super().__init__(nc, anchors, ch, inplace)
+        self.combine_mask = combine_mask
         self.nm = nm  # number of masks
         self.npr = npr  # number of protos
         self.no = 5 + nc + self.nm  # number of outputs per anchor
         self.m = nn.ModuleList(nn.Conv2d(x, self.no * self.na, 1) for x in ch)  # output conv
         self.proto = Proto(ch[0], self.npr, self.nm)  # protos
+        if self.combine_mask:
+            self.no = 5 + nc  # number of outputs per anchor
+            self.mask_pred = nn.Conv2d(nm, nc, 1) # output mask_pred
+            self.nm = 0 # number of masks in detect output
+        else:
+            self.no = 5 + nc + nm  # number of outputs per anchor
+            self.nm = nm # number of masks in detect output
+        self.m = nn.ModuleList(nn.Conv2d(x, self.no * self.na, 1) for x in ch)  # output convgit stat
         self.detect = IDetect.forward
 
     def forward(self, x):
         p = self.proto(x[0])
         x = self.detect(self, x)
-        return (x, p) if self.training else (x[0], p) if self.export else (x[0], (x[1], p))
-
+        if self.training:
+            origin = (x, p)
+        else:
+            if self.export:
+                origin = (x[0], p)
+            else:
+                origin = (x[0], (x[1], p))
+        if self.combine_mask:
+            mask = self.mask_pred(p)
+            return origin + (mask, )
+        else:
+            return origin
 
 class IRSegment(IDetect):
     # YOLOR Segment head for segmentation models

@@ -47,7 +47,7 @@ from utils.general import (LOGGER, NUM_THREADS, Profile, check_dataset, check_im
 from utils.metrics import ConfusionMatrix, box_iou
 from utils.plots import output_to_target, plot_val_study
 from utils.segment.dataloaders import create_dataloader
-from utils.segment.general import mask_iou, process_mask, process_mask_upsample, scale_masks
+from utils.segment.general import mask_iou, process_mask, process_mask_upsample, process_combine_mask, scale_masks
 from utils.segment.metrics import Metrics, ap_per_class_box_and_mask
 from utils.segment.plots import plot_images_and_masks
 from utils.torch_utils import de_parallel, select_device, smart_inference_mode
@@ -156,6 +156,7 @@ def run(
         mask_downsample_ratio=1,
         compute_loss=None,
         callbacks=Callbacks(),
+        combine_mask=False,
 ):
     if save_json:
         check_requirements(['pycocotools'])
@@ -170,6 +171,7 @@ def run(
         half &= device.type != 'cpu'  # half precision only supported on CUDA
         model.half() if half else model.float()
         nm = de_parallel(model).model[-1].nm  # number of masks
+        combine_mask = de_parallel(model).model[-1].combine_mask  # number of masks
     else:  # called directly
         device = select_device(device, batch_size=batch_size)
 
@@ -183,6 +185,7 @@ def run(
         imgsz = check_img_size(imgsz, s=stride)  # check image size
         half = model.fp16  # FP16 supported on limited backends with CUDA
         nm = de_parallel(model).model.model[-1].nm if isinstance(model, SegmentationModel) else 32  # number of masks
+        combine_mask = getattr(de_parallel(model).model[-1], "combine_mask", combine_mask) if isinstance(model, SegmentationModel) else combine_mask # number of masks
         if engine:
             batch_size = model.batch_size
         else:
@@ -252,8 +255,11 @@ def run(
 
         # Inference
         with dt[1]:
-            out, train_out = model(im)  # if training else model(im, augment=augment, val=True)  # inference, loss
-
+            if combine_mask:
+                out, train_out, mask_pred = model(im) # if training else model(im, augment=augment, val=True)  # inference, loss
+                train_out = train_out + (mask_pred,)
+            else:
+                out, train_out = model(im)
         # Loss
         if compute_loss:
             loss += compute_loss(train_out, targets, masks)[1]  # box, obj, cls
@@ -291,8 +297,12 @@ def run(
             # Masks
             midx = [si] if overlap else targets[:, 0] == si
             gt_masks = masks[midx]
-            proto_out = train_out[1][si]
-            pred_masks = process(proto_out, pred[:, 6:], pred[:, :4], shape=im[si].shape[1:])
+            if not combine_mask:
+                proto_out = train_out[1][si]
+                pred_masks = process(proto_out, pred[:, 6:], pred[:, :4], shape=im[si].shape[1:])
+            else:
+                mask_pred_si = mask_pred[si]
+                pred_masks = process_combine_mask(mask_pred_si, pred[:, 5], pred[:, :4], shape=im[si].shape[1:])
 
             # Predictions
             if single_cls:
@@ -409,6 +419,7 @@ def parse_opt():
     parser.add_argument('--imgsz', '--img', '--img-size', type=int, default=640, help='inference size (pixels)')
     parser.add_argument('--conf-thres', type=float, default=0.001, help='confidence threshold')
     parser.add_argument('--iou-thres', type=float, default=0.6, help='NMS IoU threshold')
+    parser.add_argument('--combine_mask', action='store_true', default=False, help='combine masks of the same class.')
     parser.add_argument('--max-det', type=int, default=300, help='maximum detections per image')
     parser.add_argument('--task', default='val', help='train, val, test, speed or study')
     parser.add_argument('--device', default='', help='cuda device, i.e. 0 or 0,1,2,3 or cpu')
