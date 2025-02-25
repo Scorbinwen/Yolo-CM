@@ -248,7 +248,7 @@ def run(
                 im = im.to(device, non_blocking=True)
                 targets = targets.to(device)
                 masks = masks.to(device)
-            masks = masks.float()
+            masks = masks.half() if half else masks.float()
             im = im.half() if half else im.float()  # uint8 to fp16/32
             im /= 255  # 0 - 255 to 0.0 - 1.0
             nb, _, height, width = im.shape  # batch size, channels, height, width
