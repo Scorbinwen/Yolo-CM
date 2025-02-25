@@ -136,5 +136,5 @@ head:
    [88, 1, Conv, [512, 3, 1]],
    [101, 1, Conv, [1024, 3, 1]],
 
-   [[102, 103, 104], 1, ISegment, [nc, anchors, 32, 256]],  # Detect(P3, P4, P5)
+   [[102, 103, 104], 1, ISegment, [nc, anchors, 32, 256, True, False]],  # Detect(P3, P4, P5)
   ]
