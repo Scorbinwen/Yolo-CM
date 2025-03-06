@@ -1,0 +1,1 @@
+python val.py  --data ../data/coco.yaml  --weights ../weights/last.pt --combine_mask --device 0 --batch-size 60

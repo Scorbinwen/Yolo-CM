@@ -184,7 +184,7 @@ def run(
         stride, pt, jit, engine = model.stride, model.pt, model.jit, model.engine
         imgsz = check_img_size(imgsz, s=stride)  # check image size
         half = model.fp16  # FP16 supported on limited backends with CUDA
-        nm = de_parallel(model).model.model[-1].nm if isinstance(model, SegmentationModel) else 32  # number of masks
+        nm = de_parallel(model).model.model[-1].nm if isinstance(de_parallel(model).model, SegmentationModel) else 32  # number of masks
         combine_mask = getattr(de_parallel(model).model[-1], "combine_mask", combine_mask) if isinstance(model, SegmentationModel) else combine_mask # number of masks
         if engine:
             batch_size = model.batch_size

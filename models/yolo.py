@@ -193,7 +193,7 @@ class ISegment(IDetect):
                 origin = (x[0], p)
             else:
                 origin = (x[0], (x[1], p))
-        if self.combine_mask:
+        if hasattr(self, "combine_mask") and self.combine_mask:
             mask = self.mask_pred(p)
             return origin + (mask, )
         else:

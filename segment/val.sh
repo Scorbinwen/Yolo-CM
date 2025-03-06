@@ -1,0 +1,1 @@
+python val.py  --data ../data/coco.yaml  --weights ../weights/yolov7-seg.pt --device 0 --batch-size 60
