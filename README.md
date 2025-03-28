@@ -59,9 +59,12 @@ sh predict.sh
      <td>Person Segmentation + Tracking</td>
      </tr>
   <tr>
-    <td><img src="https://user-images.githubusercontent.com/62513924/190402435-931f0ee3-9af1-4399-8222-1028d5afbd1a.png" width=640 height=180></td>
-    <td><img src="https://user-images.githubusercontent.com/62513924/190402752-521b7815-bea8-4cef-8b36-54fb7a962244.png" width=640 height=180></td>
-    <td><img src="https://user-images.githubusercontent.com/62513924/191729411-a8d8b5e2-bdbf-4c0e-bd1b-a52e23f7c9d3.png" width=640 height=180></td>
+    <td><img src="![image](https://github.com/user-attachments/assets/8722d813-c78e-44c7-a6ff-b71df4d856df)
+" width=640 height=180></td>
+    <td><img src="![image](https://github.com/user-attachments/assets/d1696ec5-7c83-44f1-bba8-006f3dc63cb3)
+" width=640 height=180></td>
+    <td><img src="![image](https://github.com/user-attachments/assets/df5297f5-71ca-4e56-b95f-41543b798c17)
+" width=640 height=180></td>
   </tr>
   </tr>
  </table>
