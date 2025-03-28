@@ -49,7 +49,7 @@ cd segment
 sh predict.sh
 ```
 
-- Output file will be created in the working directory with name <b>yolov7-segmentation/runs/predict-seg/exp/"original-video-name.mp4"</b>
+- Output file will be created in the working directory with name <b>yolov7-segmentation/runs/predict-seg/exp/"</b>
 
 ### RESULTS
 <table>
