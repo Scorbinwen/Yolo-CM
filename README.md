@@ -23,7 +23,6 @@ cd yolov7seg
 cd Scripts
 activate
 cd ..
-cd ..
 ```
 - Upgrade pip with mentioned command below.
 ```bash
@@ -41,12 +40,12 @@ pip install -r requirements.txt
 #train
 cd segment
 ## Edit your train.sh
-> 
+> python -m torch.distributed.launch --nproc_per_node 2  --master_port 29501 --use_env train.py --sync-bn --batch-size 60 --workers 64 --imgsz 640 --device 0,1 --save-period 30 --data ../data/coco.yaml --cfg ../models/segment/yolov7-seg-combine-mask.yaml  --hyp hyp.scratch-high.yaml --combine_mask
 sh train.sh
 #predict
 cd segment
 ## Edit your predict.sh
-> 
+> python predict.py  --data ../data/coco.yaml  --weights ../weights/best.pt --source /path/to/data
 sh predict.sh
 ```
 
