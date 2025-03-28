@@ -99,12 +99,12 @@ Official implementation of YOLOv7-Harmony for instance segmentation, accompanyin
 ## 📊 Results
 <table>
   <tr>
-    <td align="center"><box mAP></td>
-    <td align="center"><mask mAP></td>
+    <td align="center">box mAP</td>
+    <td align="center">mask mAP</td>
   </tr>
   <tr>
-    <td align="center"><0.664></td>
-    <td align="center"><0.619></td>
+    <td align="center">0.664</td>
+    <td align="center">0.619</td>
 </td>
   </tr>
 </table>
