@@ -54,11 +54,6 @@ sh predict.sh
 ### RESULTS
 <table>
   <tr>
-    <td>a</td>
-     <td>b</td>
-     <td>c</td>
-     </tr>
-  <tr>
     <td><img src="https://github.com/user-attachments/assets/8722d813-c78e-44c7-a6ff-b71df4d856df"></td>
     <td><img src="https://github.com/user-attachments/assets/d1696ec5-7c83-44f1-bba8-006f3dc63cb3"></td>
     <td><img src="https://github.com/user-attachments/assets/df5297f5-71ca-4e56-b95f-41543b798c17"></td>
