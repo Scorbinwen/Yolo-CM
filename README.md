@@ -54,9 +54,9 @@ sh predict.sh
 ### RESULTS
 <table>
   <tr>
-    <td>Car Semantic Segmentation</td>
-     <td>Car Semantic Segmentation</td>
-     <td>Person Segmentation + Tracking</td>
+    <td>a</td>
+     <td>b</td>
+     <td>c</td>
      </tr>
   <tr>
     <td><img src="https://github.com/user-attachments/assets/8722d813-c78e-44c7-a6ff-b71df4d856df"></td>
