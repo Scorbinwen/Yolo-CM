@@ -104,8 +104,9 @@ Official implementation of YOLOv7-Harmony for instance segmentation, accompanyin
     <td align="center"><img src="https://github.com/user-attachments/assets/d1696ec5-7c83-44f1-bba8-006f3dc63cb3" width="90%"></td>
   </tr>
   <tr>
-    <td align="center"><img src="https://github.com/user-attachments/assets/df5297f5-71ca-4e56-b95f-41543b798c17" width="90%"></td>
-    <td align="center">(Additional result examples)</td>
+    <td align="center"><img src="https://github.com/user-attachments/assets/5f2c69a8-e29a-4471-a732-d9b6fc0dfd06" width="90%"></td>
+    <td align="center"><img src="https://github.com/user-attachments/assets/a90d931b-4fe6-4f16-908d-f7bfc36c70df" width="90%"></td>
+</td>
   </tr>
 </table>
 
