@@ -10,14 +10,14 @@ Official implementation of YOLOv7-Harmony for instance segmentation, accompanyin
 - 🚀 High-performance instance segmentation
 - 🧩 Harmony architecture for improved mask prediction
 - ⚡ Multi-GPU training support
-- 🎯 State-of-the-art results on COCO dataset
+- 🎯 Results on COCO dataset
 
 ## 📦 Installation
 
 ### Prerequisites
-- Python 3.8+
-- CUDA 11.3+
-- PyTorch 1.12+
+- Python 3.10.13+
+- CUDA 11.8+
+- PyTorch 2.1.2+
 
 ### Step-by-Step Setup
 1. Clone the repository:
@@ -97,6 +97,17 @@ Official implementation of YOLOv7-Harmony for instance segmentation, accompanyin
    ```
 
 ## 📊 Results
+<table>
+  <tr>
+    <td align="center"><box mAP></td>
+    <td align="center"><mask mAP></td>
+  </tr>
+  <tr>
+    <td align="center"><0.664></td>
+    <td align="center"><0.619></td>
+</td>
+  </tr>
+</table>
 
 <table>
   <tr>
