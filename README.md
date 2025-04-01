@@ -118,10 +118,10 @@ Key observations:
 **Figure 1: Qualitative Segmentation Examples**  
 *Left: Original Images • Right: YOLOv7-Harmony Predictions*
 
-|     Methods   | Detection Integrity | Edge Precision | Object Confidence | Detection Neatness |
-|---------------|---------------|--------------------|------------------------|----------------|
-|  YOLOv7-seg   | <img src="https://github.com/user-attachments/assets/20d358f2-2722-4849-824b-15bbadf6ec85" width="90%"> | <img src="https://github.com/user-attachments/assets/aa57fdc4-455c-4b3e-82c9-b0c62f4d6647" width="90%"> | <img src="https://github.com/user-attachments/assets/c0748322-2b90-40c3-af9c-dadd2ab48cce" width="90%"> | <img src="https://github.com/user-attachments/assets/424b499d-ac09-40d0-9a88-1e9ca7a34bda" width="90%"> |
-| YOLOv7-Harmony| <img src="https://github.com/user-attachments/assets/8722d813-c78e-44c7-a6ff-b71df4d856df" width="90%"> | <img src="https://github.com/user-attachments/assets/d1696ec5-7c83-44f1-bba8-006f3dc63cb3" width="90%"> | <img src="https://github.com/user-attachments/assets/5f2c69a8-e29a-4471-a732-d9b6fc0dfd06" width="90%"> | <img src="https://github.com/user-attachments/assets/a90d931b-4fe6-4f16-908d-f7bfc36c70df" width="90%"> |
+| Methods         | Detection Integrity | Edge Precision | Object Confidence | Detection Neatness |
+|-----------------|---------------------|----------------|-------------------|-------------------|
+| YOLOv7-seg      | <img src="https://github.com/user-attachments/assets/20d358f2-2722-4849-824b-15bbadf6ec85" width="90%"> | <img src="https://github.com/user-attachments/assets/aa57fdc4-455c-4b3e-82c9-b0c62f4d6647" width="90%"> | <img src="https://github.com/user-attachments/assets/c0748322-2b90-40c3-af9c-dadd2ab48cce" width="90%"> | <img src="https://github.com/user-attachments/assets/424b499d-ac09-40d0-9a88-1e9ca7a34bda" width="90%"> |
+| YOLOv7-Harmony  | <img src="https://github.com/user-attachments/assets/8722d813-c78e-44c7-a6ff-b71df4d856df" width="90%"> | <img src="https://github.com/user-attachments/assets/a90d931b-4fe6-4f16-908d-f7bfc36c70df" width="90%"> | <img src="https://github.com/user-attachments/assets/5f2c69a8-e29a-4471-a732-d9b6fc0dfd06" width="90%"> | <img src="https://github.com/user-attachments/assets/d1696ec5-7c83-44f1-bba8-006f3dc63cb3" width="90%"> |
 
 
 
