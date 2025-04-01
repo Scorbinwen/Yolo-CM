@@ -97,7 +97,7 @@ Official implementation of YOLOv7-CM for instance segmentation, accompanying our
    ```
 
 ## 📊 Results
-### 📈 Quantitative Results (COCO val2017)
+### 📈 Quantitative Results (COCO test2017)
 
 | Model          | Test Size | APbox  | AP50box | AP75box | APmask | AP50mask | AP75mask | Latency (T4) |
 |----------------|-----------|--------|---------|---------|--------|----------|----------|--------------|
