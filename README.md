@@ -97,17 +97,15 @@ Official implementation of YOLOv7-Harmony for instance segmentation, accompanyin
    ```
 
 ## 📊 Results
-<table>
-  <tr>
-    <td align="center">box mAP</td>
-    <td align="center">mask mAP</td>
-  </tr>
-  <tr>
-    <td align="center">0.664</td>
-    <td align="center">0.619</td>
-</td>
-  </tr>
-</table>
+
+| Model    | size (pixels) | mAPval 50-95 | Speed CPU ONNX (ms) | Speed T4 TensorRT10 (ms) | params (M) | FLOPs (B) |
+|----------|---------------|--------------|----------------------|---------------------------|------------|-----------|
+| YOLO7n  | 640           | 39.5         | 56.1 ± 0.8           | 1.5 ± 0.0                 | 2.6        | 6.5       |
+| YOLO7s  | 640           | 47.0         | 90.0 ± 1.2           | 2.5 ± 0.0                 | 9.4        | 21.5      |
+| YOLO7m  | 640           | 51.5         | 183.2 ± 2.0          | 4.7 ± 0.1                 | 20.1       | 68.0      |
+| YOLO7l  | 640           | 53.4         | 238.6 ± 1.4          | 6.2 ± 0.1                 | 25.3       | 86.9      |
+| YOLO7x  | 640           | 54.7         | 462.8 ± 6.7          | 11.3 ± 0.2                | 56.9       | 194.9     |
+| Ours    | 640           | 53.4         | 238.6 ± 1.4          | 6.2 ± 0.1                 | 25.3       | 86.9      |
 
 <table>
   <tr>
