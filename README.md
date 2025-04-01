@@ -118,10 +118,9 @@ Key observations:
 **Figure 1: Qualitative Segmentation Examples**  
 *Left: Original Images • Right: YOLOv7-Harmony Predictions*
 
-| Complex Scene | Occlusion Handling | Small Object Detection | Edge Precision |
+| Detection Integrity | Edge Precision | Object Confidence | Detection Neatness |
 |---------------|--------------------|------------------------|----------------|
 | <img src="https://github.com/user-attachments/assets/8722d813-c78e-44c7-a6ff-b71df4d856df" width="90%"> | <img src="https://github.com/user-attachments/assets/d1696ec5-7c83-44f1-bba8-006f3dc63cb3" width="90%"> | <img src="https://github.com/user-attachments/assets/5f2c69a8-e29a-4471-a732-d9b6fc0dfd06" width="90%"> | <img src="https://github.com/user-attachments/assets/a90d931b-4fe6-4f16-908d-f7bfc36c70df" width="90%"> |
-| *Multi-instance segmentation in crowded environments* | *Robust performance under heavy occlusion* | *Accurate small object (≤32px) segmentation* | *Sharp mask boundaries with pixel-level accuracy* |
 
 </div>
 
