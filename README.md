@@ -1,14 +1,14 @@
-# YOLOv7-Harmony: Instance Segmentation
+# YOLOv7-CM: Instance Segmentation
 
 [![License](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)
 [![Python 3.8+](https://img.shields.io/badge/Python-3.8%2B-blue)](https://www.python.org/downloads/)
 [![PyTorch](https://img.shields.io/badge/PyTorch-1.12%2B-orange)](https://pytorch.org/)
 
-Official implementation of YOLOv7-Harmony for instance segmentation, accompanying our paper *[Paper Title]* (to be published). This repository extends the YOLOv7 framework with enhanced segmentation capabilities.
+Official implementation of YOLOv7-CM for instance segmentation, accompanying our paper *[Paper Title]* (to be published). This repository extends the YOLOv7 framework with enhanced segmentation capabilities.
 
 ## 📌 Features
 - 🚀 High-performance instance segmentation
-- 🧩 Harmony architecture for improved mask prediction
+- 🧩 Combine-Mask architecture for improved mask prediction
 - ⚡ Multi-GPU training support
 - 🎯 Results on COCO dataset
 
@@ -22,7 +22,7 @@ Official implementation of YOLOv7-Harmony for instance segmentation, accompanyin
 ### Step-by-Step Setup
 1. Clone the repository:
    ```bash
-   git clone https://github.com/Scorbinwen/Yolo-Harmony.git
+   git clone https://github.com/Scorbinwen/Yolo-CM.git
    cd yolov7-segmentation
    ```
 
@@ -102,7 +102,7 @@ Official implementation of YOLOv7-Harmony for instance segmentation, accompanyin
 | Model          | Test Size | APbox  | AP50box | AP75box | APmask | AP50mask | AP75mask | Latency (T4) |
 |----------------|-----------|--------|---------|---------|--------|----------|----------|--------------|
 | YOLOv7-seg     | 640       | 51.4%  | 69.4%   | 55.8%   | 41.5%  | 65.5%    | 43.7%    | 12.3ms       |
-| YOLOv7-Harmony | 640       | **52.1%** | **70.3%** | **56.2%** | **41.8%** | **65.9%** | **44.1%** | **11.8ms** |
+| YOLOv7-CM | 640       | **52.1%** | **70.3%** | **56.2%** | **41.8%** | **65.9%** | **44.1%** | **11.8ms** |
 
 *Table 1: Comparative evaluation on COCO dataset. All metrics reported at IoU threshold 0.50:0.95.*
 
@@ -116,12 +116,12 @@ Key observations:
 <div align="center">
   
 **Figure 1: Qualitative Segmentation Examples**  
-*Left: Original Images • Right: YOLOv7-Harmony Predictions*
+*Left: Original Images • Right: YOLOv7-CM Predictions*
 
 | Methods         | Detection Neatness | Edge Precision | Object Confidence | Detection Integrity |
 |-----------------|---------------------|----------------|-------------------|-------------------|
 | YOLOv7-seg      | <img src="https://github.com/user-attachments/assets/20d358f2-2722-4849-824b-15bbadf6ec85" width="90%"> | <img src="https://github.com/user-attachments/assets/aa57fdc4-455c-4b3e-82c9-b0c62f4d6647" width="90%"> | <img src="https://github.com/user-attachments/assets/c0748322-2b90-40c3-af9c-dadd2ab48cce" width="90%"> | <img src="https://github.com/user-attachments/assets/424b499d-ac09-40d0-9a88-1e9ca7a34bda" width="90%"> |
-| YOLOv7-Harmony  | <img src="https://github.com/user-attachments/assets/8722d813-c78e-44c7-a6ff-b71df4d856df" width="90%"> | <img src="https://github.com/user-attachments/assets/a90d931b-4fe6-4f16-908d-f7bfc36c70df" width="90%"> | <img src="https://github.com/user-attachments/assets/5f2c69a8-e29a-4471-a732-d9b6fc0dfd06" width="90%"> | <img src="https://github.com/user-attachments/assets/d1696ec5-7c83-44f1-bba8-006f3dc63cb3" width="90%"> |
+| YOLOv7-CM  | <img src="https://github.com/user-attachments/assets/8722d813-c78e-44c7-a6ff-b71df4d856df" width="90%"> | <img src="https://github.com/user-attachments/assets/a90d931b-4fe6-4f16-908d-f7bfc36c70df" width="90%"> | <img src="https://github.com/user-attachments/assets/5f2c69a8-e29a-4471-a732-d9b6fc0dfd06" width="90%"> | <img src="https://github.com/user-attachments/assets/d1696ec5-7c83-44f1-bba8-006f3dc63cb3" width="90%"> |
 
 
 
@@ -130,7 +130,7 @@ Key observations:
 ## 📜 Citation
 ```bibtex
 @article{yourcitation,
-  title={YOLOv7-Harmony: Advanced Instance Segmentation},
+  title={YOLOv7-CM: Advanced Instance Segmentation},
   author={Your Name, Co-authors},
   journal={Journal/Conference Name},
   year={2023}
