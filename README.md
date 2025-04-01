@@ -101,7 +101,7 @@ Official implementation of YOLOv7-Harmony for instance segmentation, accompanyin
 | Model       | Test Size | APbox  | AP50box | AP75box | APmask | AP50mask | AP75mask |
 |-------------|-----------|--------|---------|---------|--------|----------|----------|
 | YOLOv7-seg  | 640       | 51.4%  | 69.4%   | 55.8%   | 41.5%  | 65.5%    | 43.7%    |
-| YOLOv7-Ours | 640       | **52.1%**  | **70.3%**   | 55.8%   | **41.8%**  | **65.9% **   | **44.1%**    |
+| YOLOv7-Ours | 640       | **52.1%**  | **70.3%**   | 55.8%   | **41.8%**  | **65.9%**  | **44.1%**    |
 
 <table>
   <tr>
