@@ -130,8 +130,7 @@ Key observations:
   title={YOLO-CM: Class-Aware Instance Segmentation Using Combine-Mask for Enhanced Object Detection},
   author={Renzhong Wu and Xiaobin Wen and Shenghui Liao and Jianfeng Li and Xiaoyan Kui},
   journal={Springer International Publishing},
-  year={2025},
-  note={To be published. Renzhong Wu and Xiaobin Wen contributed equally to this work. Corresponding Author: [Shenghui Liao](mailto:ShenghuiLiao@csu.com).}
+  year={2025}
 }
 ```
 
