@@ -131,7 +131,7 @@ Key observations:
   author={Renzhong Wu and Xiaobin Wen and Shenghui Liao and Jianfeng Li and Xiaoyan Kui},
   journal={Springer International Publishing},
   year={2025},
-  note={To be published. Renzhong Wu and Xiaobin Wen contributed equally to this work. Corresponding Author: [lncs@springer.com](mailto:lncs@springer.com).}
+  note={To be published. Renzhong Wu and Xiaobin Wen contributed equally to this work. Corresponding Author: [Shenghui Liao](mailto:ShenghuiLiao@csu.com).}
 }
 ```
 
