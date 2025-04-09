@@ -4,7 +4,7 @@
 [![Python 3.8+](https://img.shields.io/badge/Python-3.8%2B-blue)](https://www.python.org/downloads/)
 [![PyTorch](https://img.shields.io/badge/PyTorch-1.12%2B-orange)](https://pytorch.org/)
 
-Official implementation of YOLOv7-CM for instance segmentation, accompanying our paper *[Paper Title]* (to be published). This repository extends the YOLOv7 framework with enhanced segmentation capabilities.
+Official implementation of YOLOv7-CM for instance segmentation, accompanying our paper *[YOLO-CM: Class-Aware Instance Segmentation Using Combine-Mask for Enhanced Object Detection](https://link.springer.com/article/10.1007/s00500-025-XXXX-XX)* (to be published). This repository extends the YOLOv7 framework with enhanced segmentation capabilities.
 
 ## 📌 Features
 - 🚀 High-performance instance segmentation
@@ -36,7 +36,7 @@ Official implementation of YOLOv7-CM for instance segmentation, accompanying our
    python3 -m venv yolov7seg
    cd yolov7seg/Scripts
    activate
-   cd ..
+   cd..
    ```
 
 3. Install dependencies:
@@ -47,16 +47,13 @@ Official implementation of YOLOv7-CM for instance segmentation, accompanying our
 
 ## 🏋️ Training
 
-1. Download baseline weights:
-   - [yolov7-seg.pt](https://github.com/RizwanMunawar/yolov7-segmentation/releases/download/yolov7-segmentation/yolov7-seg.pt) (place in `yolov7-segmentation` directory)
-
-2. Configure training:
+1. Configure training:
    ```bash
    cd segment
    # Edit train.sh with your parameters
    ```
 
-3. Start training (multi-GPU example):
+2. Start training (multi-GPU example):
    ```bash
    sh train.sh
    ```
@@ -69,8 +66,8 @@ Official implementation of YOLOv7-CM for instance segmentation, accompanying our
        --imgsz 640 \
        --device 0,1 \
        --save-period 30 \
-       --data ../data/coco.yaml \
-       --cfg ../models/segment/yolov7-seg-combine-mask.yaml \
+       --data../data/coco.yaml \
+       --cfg../models/segment/yolov7-seg-combine-mask.yaml \
        --hyp hyp.scratch-high.yaml \
        --combine_mask
    ```
@@ -86,8 +83,8 @@ Official implementation of YOLOv7-CM for instance segmentation, accompanying our
    *Default command:*
    ```bash
    python predict.py \
-       --data ../data/coco.yaml \
-       --weights ../weights/best.pt \
+       --data../data/coco.yaml \
+       --weights../weights/best.pt \
        --source /path/to/data
    ```
 
@@ -102,13 +99,13 @@ Official implementation of YOLOv7-CM for instance segmentation, accompanying our
 | Model          | Test Size | APbox  | AP50box | AP75box | APmask | AP50mask | AP75mask | Latency (T4) |
 |----------------|-----------|--------|---------|---------|--------|----------|----------|--------------|
 | YOLOv7-seg     | 640       | 51.4%  | 69.4%   | 55.8%   | 41.5%  | 65.5%    | 43.7%    | 12.3ms       |
-| YOLOv7-CM | 640       | **52.1%** | **70.3%** | **56.2%** | **41.8%** | **65.9%** | **44.1%** | **11.8ms** |
+| YOLOv7-CM | 640       | **51.6%** | **70.3%** | **56.2%** | **41.6%** | **65.9%** | **43.9%** | **11.8ms** |
 
 *Table 1: Comparative evaluation on COCO dataset. All metrics reported at IoU threshold 0.50:0.95.*
 
 Key observations:
-- ↑ 1.4% improvement in bounding box AP (52.1% vs 51.4%)
-- ↑ 0.9% improvement in mask AP (41.8% vs 41.5%)
+- ↑ 0.2% improvement in bounding box AP (51.6% vs 51.4%)
+- ↑ 0.1% improvement in mask AP (41.6% vs 41.5%)
 - ↓ 4% reduction in inference latency
 
 ### 🖼️ Visual Results
@@ -116,7 +113,7 @@ Key observations:
 <div align="center">
   
 **Figure 1: Qualitative Segmentation Examples**  
-*Left: Original Images • Right: YOLOv7-CM Predictions*
+*Left: Original Images - Right: YOLOv7-CM Predictions*
 
 | Methods         | Detection Neatness | Edge Precision | Object Confidence | Detection Integrity |
 |-----------------|---------------------|----------------|-------------------|-------------------|
@@ -129,11 +126,12 @@ Key observations:
 
 ## 📜 Citation
 ```bibtex
-@article{yourcitation,
-  title={YOLOv7-CM: Advanced Instance Segmentation},
-  author={Your Name, Co-authors},
-  journal={Journal/Conference Name},
-  year={2023}
+@article{wu2025yolocm,
+  title={YOLO-CM: Class-Aware Instance Segmentation Using Combine-Mask for Enhanced Object Detection},
+  author={Renzhong Wu and Xiaobin Wen and Shenghui Liao and Jianfeng Li and Xiaoyan Kui},
+  journal={Springer International Publishing},
+  year={2025},
+  note={To be published. Renzhong Wu and Xiaobin Wen contributed equally to this work. Corresponding Author: [lncs@springer.com](mailto:lncs@springer.com).}
 }
 ```
 
@@ -143,23 +141,3 @@ Key observations:
 
 ## 📄 License
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
-```
-
-Key improvements made:
-1. Added professional header with badges
-2. Organized content with clear section headers and emojis
-3. Improved code block formatting with syntax highlighting
-4. Added citation section for academic use
-5. Better visual hierarchy with tables and alignment
-6. Added license information
-7. More concise and action-oriented instructions
-8. Better spacing and readability
-9. Added placeholder for paper citation
-10. Structured acknowledgements section
-
-You can further customize by:
-- Adding a project logo if available
-- Including performance metrics/benchmarks
-- Adding a "Contributing" section
-- Creating a project roadmap
-- Adding demo GIFs/videos
