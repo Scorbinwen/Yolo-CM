@@ -4,7 +4,7 @@
 [![Python 3.8+](https://img.shields.io/badge/Python-3.8%2B-blue)](https://www.python.org/downloads/)
 [![PyTorch](https://img.shields.io/badge/PyTorch-1.12%2B-orange)](https://pytorch.org/)
 
-Official implementation of YOLOv7-CM for instance segmentation, accompanying our paper *[YOLO-CM: Class-Aware Instance Segmentation Using Combine-Mask for Enhanced Object Detection]([https://link.springer.com/article/10.1007/s00500-025-XXXX-XX](https://link.springer.com/chapter/10.1007/978-981-96-9891-2_35))*. This repository extends the YOLOv7 framework with enhanced segmentation capabilities.
+Official implementation of YOLOv7-CM for instance segmentation, accompanying our paper *[YOLO-CM: Class-Aware Instance Segmentation Using Combine-Mask for Enhanced Object Detection]([(https://link.springer.com/chapter/10.1007/978-981-96-9891-2_35)])*. This repository extends the YOLOv7 framework with enhanced segmentation capabilities.
 
 ## 📌 Features
 - 🚀 High-performance instance segmentation
